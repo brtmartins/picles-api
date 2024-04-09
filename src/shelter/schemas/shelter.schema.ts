@@ -16,7 +16,7 @@ export class Shelter {
   @Prop({ required : true})
   createdAt: Date
   @Prop({ required : true})
-  updateAt: Date //nome do campo alterado porque na criação do banco não foi o D de created
+  updatedAt: Date
 }
 
 export const ShelterSchema = SchemaFactory.createForClass(Shelter)

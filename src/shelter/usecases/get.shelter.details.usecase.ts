@@ -14,7 +14,7 @@ export default class GetShelterDetailsUseCase implements IUseCase<null, GetShelt
   async run(input: null): Promise<GetShelterDetailsUseCaseOutput> {
     const shelter = await this.shelterRepository.get();
     
-    console.log(shelter)
+    // console.log(shelter)
 
     return new GetShelterDetailsUseCaseOutput({
       shelterName: shelter.name,
@@ -22,7 +22,7 @@ export default class GetShelterDetailsUseCase implements IUseCase<null, GetShelt
       shelterPhone: shelter.phone,
       shelterWhatsApp: shelter.whatsApp,
       createdAt: shelter.createdAt,
-      updatedAt: shelter.updateAt
+      updatedAt: shelter.updatedAt
    });
   }
 }
