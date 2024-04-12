@@ -6,12 +6,17 @@ import PetTokens from "../pet.tokens";
 import IPetRepository from "../interfaces/pet.repository.interface";
 import { Pet } from "../schemas/pet.schema";
 import PetNotFoundError from "src/domain/errors/pet.not.found.error";
+import AppTokens from "src/app.tokens";
+import IFileService from "src/interfaces/file.service.interface";
 
 @Injectable()
 export default class UpdatePetUseCase implements IUseCase<UpdatePetUseCaseInput, UpdatePetUseCaseOutput> {
   constructor(
     @Inject(PetTokens.petRepository)
-    private readonly petRepository: IPetRepository
+    private readonly petRepository: IPetRepository,
+
+    @Inject(AppTokens.fileService)
+    private readonly fileService: IFileService
   ) {}
 
   
@@ -30,6 +35,8 @@ export default class UpdatePetUseCase implements IUseCase<UpdatePetUseCaseInput,
 
     pet = await this.getPetById(input.id);
 
+    const petPhoto = !!pet.photo ? (await this.fileService.readFile(pet.photo)).toString('base64') : null;
+
     return new UpdatePetUseCaseOutput ({
       id: pet._id,
       name: pet.name,
@@ -37,7 +44,7 @@ export default class UpdatePetUseCase implements IUseCase<UpdatePetUseCaseInput,
       size: pet.size,
       gender: pet.gender,
       bio: pet.bio,
-      photo: pet.photo,
+      photo: petPhoto,
       createdAt: pet.createdAt,
       updatedAt: pet.updatedAt
     })
